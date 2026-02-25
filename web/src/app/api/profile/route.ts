@@ -5,6 +5,8 @@ import dbConnect from '@/lib/db/mongodb';
 import { User } from '@/lib/db/models/User';
 import { getSteamAppDetails } from '@/lib/steam';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
     try {
         const session = await getServerSession(authOptions);
