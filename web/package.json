@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@octokit/rest": "^20.0.2",
+        "adm-zip": "^0.5.16",
         "color-thief-react": "^2.1.0",
         "jszip": "^3.10.1",
         "lucide-react": "^0.460.0",
