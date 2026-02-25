@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-gray-100 font-sans antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-50;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-500;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-100/80 backdrop-blur-xl border border-white/5 rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-500 hover:border-brand-500/50 hover:shadow-2xl hover:shadow-brand-500/20 hover:-translate-y-1;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-400 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  .glow-border {
+    @apply border border-brand-500/20 shadow-[0_0_15px_rgba(99, 102, 241, 0.1)];
+  }
+
+  .btn-primary {
+    @apply px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white rounded-xl font-medium transition-all duration-300 hover:from-brand-500 hover:to-brand-400 hover:shadow-lg hover:shadow-brand-500/25 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply px-5 py-2.5 bg-surface-200 text-gray-300 rounded-xl font-medium border border-white/5 transition-all duration-300 hover:bg-surface-300 hover:text-white hover:border-white/10 active:scale-[0.98];
+  }
+
+  .btn-danger {
+    @apply px-5 py-2.5 bg-red-600/20 text-red-400 rounded-xl font-medium border border-red-500/20 transition-all duration-300 hover:bg-red-600/30 hover:text-red-300 active:scale-[0.98];
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-surface-200 border border-white/5 rounded-xl text-gray-100 placeholder:text-gray-500 focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all duration-200;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold gradient-text;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-white mb-6;
+  }
+
+  .code-block {
+    @apply bg-surface-200 rounded-xl p-4 font-mono text-sm text-gray-300 overflow-x-auto border border-white/5;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-surface-200 rounded-xl;
+  }
+}
