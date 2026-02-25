@@ -1,11 +1,7 @@
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
-}
-
+// Check is moved inside dbConnect to allow Next.js static evaluation at build time
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -18,6 +14,10 @@ if (!cached) {
 }
 
 async function dbConnect() {
+    if (!process.env.MONGODB_URI) {
+        throw new Error('Please define the MONGODB_URI environment variable inside Vercel Dashboard');
+    }
+
     if (cached.conn) {
         return cached.conn;
     }
