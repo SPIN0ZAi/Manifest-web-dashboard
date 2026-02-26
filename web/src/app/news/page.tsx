@@ -1,26 +1,32 @@
 import { Newspaper, ExternalLink, Clock, MessageSquare, ArrowUpRight } from 'lucide-react';
 
-export const revalidate = 3600; // Cache for 1 hour
+export const revalidate = 60; // Cache for 60 seconds
 
-async function getDenuvoNews() {
+async function getDenuvoNews(): Promise<{ news: any[]; error?: string }> {
     try {
         const response = await fetch(
             'https://www.reddit.com/r/CrackWatch/search.json?q=flair_name%3A%22Release%22+Denuvo&restrict_sr=1&sort=new',
             {
                 headers: {
-                    'User-Agent': 'ProjectCairoDenuvoNews/1.0',
+                    'User-Agent': `ProjectCairoDenuvoNews/${Math.random().toString(36).substring(7)}`, // Randomize user agent slightly to avoid strict blocking
                 },
-                next: { revalidate: 3600 }
+                next: { revalidate: 60 }
             }
         );
 
         if (!response.ok) {
-            console.error('Failed to fetch from Reddit API:', response.statusText);
-            return [];
+            console.error('Failed to fetch from Reddit API:', response.status, response.statusText);
+            return { news: [], error: `Reddit API returned ${response.status} ${response.statusText}` };
         }
 
         const data = await response.json();
-        return data.data.children.map((child: any) => ({
+
+        if (!data || !data.data || !data.data.children) {
+            console.error('Reddit API returned unexpected JSON format:', data);
+            return { news: [], error: 'Reddit API returned an unexpected or rate-limited response format.' };
+        }
+
+        const news = data.data.children.map((child: any) => ({
             id: child.data.id,
             title: child.data.title,
             url: child.data.url,
@@ -30,14 +36,16 @@ async function getDenuvoNews() {
             score: child.data.score,
             num_comments: child.data.num_comments
         }));
-    } catch (error) {
+
+        return { news, error: undefined };
+    } catch (error: any) {
         console.error('Error fetching news:', error);
-        return [];
+        return { news: [], error: error.message || 'Unknown network error occurred while fetching.' };
     }
 }
 
 export default async function NewsPage() {
-    const news = await getDenuvoNews();
+    const { news, error } = await getDenuvoNews();
 
     return (
         <div className="min-h-screen bg-surface-50 pt-24 pb-12">
@@ -55,10 +63,15 @@ export default async function NewsPage() {
                 </div>
 
                 {news.length === 0 ? (
-                    <div className="text-center py-20 bg-surface rounded-2xl border border-white/5">
+                    <div className="text-center py-20 bg-surface rounded-2xl border border-white/5 mx-auto max-w-2xl">
                         <Newspaper className="w-12 h-12 text-gray-500 mx-auto mb-4" />
                         <h2 className="text-xl font-semibold text-white mb-2">No news available</h2>
-                        <p className="text-gray-400">Failed to load the latest releases or Reddit is taking a nap.</p>
+                        <p className="text-gray-400 mb-4">Failed to load the latest releases or Reddit is taking a nap.</p>
+                        {error && (
+                            <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl inline-block mt-4">
+                                <p className="text-sm text-red-400 font-mono text-left break-all">{error}</p>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
