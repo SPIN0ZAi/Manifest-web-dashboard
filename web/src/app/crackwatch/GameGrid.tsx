@@ -88,8 +88,13 @@ export function GameGrid({ initialGames }: { initialGames: any[] }) {
                                             src={item.image}
                                             alt={item.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).parentElement!.querySelector('.img-fallback')?.classList.remove('hidden'); }}
                                         />
                                     ) : null}
+                                    {/* Fallback when image is missing or fails to load */}
+                                    <div className={`img-fallback ${item.image ? 'hidden' : ''} absolute inset-0 flex items-center justify-center bg-gradient-to-br from-surface-300 via-surface-200 to-surface-300`}>
+                                        <span className="text-white/20 text-4xl font-black uppercase text-center px-4 leading-tight select-none">{item.title}</span>
+                                    </div>
 
                                     {/* Status Badge */}
                                     <div className={`absolute top-3 right-3 z-20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md border ${badgeBg} ${statusColor}`}>
