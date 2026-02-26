@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Search, BarChart3, Home, Menu, X, Gamepad2, LogIn, LogOut, ShieldCheck } from 'lucide-react';
+import { Search, BarChart3, Home, Menu, X, Gamepad2, LogIn, LogOut, ShieldCheck, Newspaper } from 'lucide-react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
 const navLinks = [
     { href: '/', label: 'Home', icon: Home },
+    { href: '/news', label: 'News', icon: Newspaper },
     { href: '/search', label: 'Search', icon: Search },
     { href: '/stats', label: 'Statistics', icon: BarChart3 },
 ];
