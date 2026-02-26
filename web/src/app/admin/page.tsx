@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Upload, X, ShieldAlert, FileArchive, CheckCircle2, AlertCircle, Loader2, Users, HardDriveUpload, Check, XCircle, Clock } from 'lucide-react';
+import { Upload, X, ShieldAlert, FileArchive, CheckCircle2, AlertCircle, Loader2, Users, HardDriveUpload, Check, XCircle, Clock, Gamepad2 } from 'lucide-react';
 
 type UploadStatus = 'pending' | 'uploading' | 'success' | 'error';
 
@@ -38,9 +38,47 @@ export default function AdminPage() {
     const [isDragging, setIsDragging] = useState(false);
 
     // User Management State
-    const [activeTab, setActiveTab] = useState<'uploads' | 'users'>('uploads');
+    const [activeTab, setActiveTab] = useState<'uploads' | 'users' | 'games'>('uploads');
     const [users, setUsers] = useState<UserItem[]>([]);
     const [usersLoading, setUsersLoading] = useState(false);
+
+    // Game Import State
+    const [gameForm, setGameForm] = useState({
+        steamAppId: '',
+        title: '',
+        status: 'uncracked',
+        drm: 'Denuvo',
+        cracker: '',
+        crackDate: '',
+        releaseDate: '',
+        notes: ''
+    });
+    const [gameSubmitStatus, setGameSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+    const [isSubmittingGame, setIsSubmittingGame] = useState(false);
+
+    const handleGameSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmittingGame(true);
+        setGameSubmitStatus(null);
+        try {
+            const res = await fetch('/api/admin/games/import', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(gameForm)
+            });
+            const data = await res.json();
+            if (data.success) {
+                setGameSubmitStatus({ type: 'success', message: 'Game successfully added/updated!' });
+                setGameForm(prev => ({ ...prev, steamAppId: '', title: '' }));
+            } else {
+                setGameSubmitStatus({ type: 'error', message: data.error || 'Failed to add game' });
+            }
+        } catch (err) {
+            setGameSubmitStatus({ type: 'error', message: 'Network error occurred' });
+        } finally {
+            setIsSubmittingGame(false);
+        }
+    };
 
     useEffect(() => {
         if (activeTab === 'users') fetchUsers();
@@ -201,10 +239,17 @@ export default function AdminPage() {
                         <Users className="w-4 h-4" />
                         User Access Requests
                     </button>
+                    <button
+                        onClick={() => setActiveTab('games')}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${activeTab === 'games' ? 'bg-brand-500 text-white' : 'text-gray-400 hover:text-white hover:bg-surface-200'}`}
+                    >
+                        <Gamepad2 className="w-4 h-4" />
+                        Game Management
+                    </button>
                 </div>
             </div>
 
-            {activeTab === 'uploads' ? (
+            {activeTab === 'uploads' && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Upload Zone */}
                     <div className="lg:col-span-2 space-y-6">
@@ -318,7 +363,9 @@ export default function AdminPage() {
                         </div>
                     </div>
                 </div>
-            ) : (
+            )}
+
+            {activeTab === 'users' && (
                 <div className="bg-surface/50 rounded-3xl border border-white/5 overflow-hidden">
                     <div className="p-6 border-b border-white/5">
                         <h2 className="text-lg font-medium text-white">User Access Management</h2>
@@ -392,6 +439,134 @@ export default function AdminPage() {
                             ))}
                         </div>
                     )}
+                </div>
+            )}
+
+            {activeTab === 'games' && (
+                <div className="bg-surface/50 rounded-3xl border border-white/5 overflow-hidden">
+                    <div className="p-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 className="text-lg font-medium text-white">Import / Add Game</h2>
+                            <p className="text-sm text-gray-400 mt-1">Add a new protected game to the tracker list.</p>
+                        </div>
+                        <button
+                            onClick={async () => {
+                                if (!confirm("Are you sure you want to run the migration? This will import all games from denuvo.json into MongoDB.")) return;
+                                const res = await fetch('/api/admin/games/migrate', { method: 'POST' });
+                                const data = await res.json();
+                                alert(data.message || data.error);
+                            }}
+                            className="px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 text-sm font-medium border border-purple-500/20 rounded-lg transition-colors whitespace-nowrap"
+                        >
+                            Run JSON Migration
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleGameSubmit} className="p-6 space-y-6 max-w-2xl">
+                        {gameSubmitStatus && (
+                            <div className={`p-4 rounded-xl flex items-center gap-3 ${gameSubmitStatus.type === 'success' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                                {gameSubmitStatus.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertCircle className="w-5 h-5 shrink-0" />}
+                                <p className="text-sm font-medium">{gameSubmitStatus.message}</p>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Steam App ID (Optional)</label>
+                                <input
+                                    type="text"
+                                    value={gameForm.steamAppId}
+                                    onChange={(e) => setGameForm({ ...gameForm, steamAppId: e.target.value })}
+                                    className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                    placeholder="e.g. 2358720"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">Fetches title and image automatically.</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Title</label>
+                                <input
+                                    type="text"
+                                    value={gameForm.title}
+                                    onChange={(e) => setGameForm({ ...gameForm, title: e.target.value })}
+                                    className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                    placeholder="Required if no Steam ID"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Crack Status</label>
+                                <select
+                                    value={gameForm.status}
+                                    onChange={(e) => setGameForm({ ...gameForm, status: e.target.value })}
+                                    className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                >
+                                    <option value="uncracked">Uncracked</option>
+                                    <option value="cracked">Cracked</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">DRM Protection</label>
+                                <input
+                                    type="text"
+                                    value={gameForm.drm}
+                                    onChange={(e) => setGameForm({ ...gameForm, drm: e.target.value })}
+                                    className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                    placeholder="Denuvo, VMProtect..."
+                                />
+                            </div>
+                        </div>
+
+                        {gameForm.status === 'cracked' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Cracker (Scene Group)</label>
+                                    <input
+                                        type="text"
+                                        value={gameForm.cracker}
+                                        onChange={(e) => setGameForm({ ...gameForm, cracker: e.target.value })}
+                                        className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                        placeholder="e.g. EMPRESS, RUNE"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Crack Date</label>
+                                    <input
+                                        type="text"
+                                        value={gameForm.crackDate}
+                                        onChange={(e) => setGameForm({ ...gameForm, crackDate: e.target.value })}
+                                        className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                        placeholder="e.g. 2024-05"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Release Date</label>
+                                <input
+                                    type="text"
+                                    value={gameForm.releaseDate}
+                                    onChange={(e) => setGameForm({ ...gameForm, releaseDate: e.target.value })}
+                                    className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                    placeholder="e.g. 2024-08-30"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="pt-4 border-t border-white/5">
+                            <button
+                                type="submit"
+                                disabled={isSubmittingGame}
+                                className="px-6 py-2.5 bg-brand-500 hover:bg-brand-600 disabled:opacity-50 text-white font-medium rounded-xl transition-colors flex items-center gap-2"
+                            >
+                                {isSubmittingGame ? <Loader2 className="w-5 h-5 animate-spin" /> : <Gamepad2 className="w-5 h-5" />}
+                                Add / Update Game
+                            </button>
+                        </div>
+                    </form>
                 </div>
             )}
         </div>

@@ -1,12 +1,14 @@
 import { ShieldCheck, ShieldAlert, Calendar, User, ExternalLink } from 'lucide-react';
-import fs from 'fs';
-import path from 'path';
+import dbConnect from '@/lib/db/mongodb';
+import { Game } from '@/lib/db/models/Game';
 
-export default function NewsPage() {
-    const filePath = path.join(process.cwd(), 'src', 'lib', 'data', 'denuvo.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const denuvoData = JSON.parse(fileContents);
-    const news = denuvoData.games;
+export const revalidate = 60; // Cache invalidation
+
+export default async function NewsPage() {
+    await dbConnect();
+
+    // Fetch games from MongoDB, sort by most recently created/updated
+    const news = await Game.find({}).sort({ createdAt: -1 }).lean();
 
     return (
         <div className="min-h-screen bg-surface-50 pt-24 pb-12">
@@ -63,7 +65,7 @@ export default function NewsPage() {
                                         </div>
                                         <div className="flex items-center gap-2 text-sm text-gray-400">
                                             <Calendar className="w-4 h-4" />
-                                            <span>Rel: {new Date(item.releaseDate).toLocaleDateString()}</span>
+                                            <span>Rel: {item.releaseDate && !isNaN(Date.parse(item.releaseDate)) ? new Date(item.releaseDate).toLocaleDateString() : (item.releaseDate || 'Unknown')}</span>
                                         </div>
                                     </div>
 
