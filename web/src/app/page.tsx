@@ -5,6 +5,8 @@ import { SearchBar } from '@/components/SearchBar';
 import { GameCard } from '@/components/GameCard';
 import { StatsCard } from '@/components/StatsCard';
 import { SkeletonCard } from '@/components/SkeletonCard';
+import { ActivityFeed } from '@/components/ActivityFeed';
+import { TrendingGames } from '@/components/TrendingGames';
 import { Gamepad2, Database, Package, TrendingUp, Loader2 } from 'lucide-react';
 import type { StatsOverview } from '@/lib/types';
 
@@ -76,6 +78,16 @@ export default function HomePage() {
                                 <StatsCard label="Depots Tracked" value={stats.totalDepotsTracked} icon={Database} color="green" />
                                 <StatsCard label="DLCs Tracked" value={stats.totalDlcsTracked} icon={Package} color="yellow" />
                                 <StatsCard label="Avg Completion" value={`${stats.averageCompletion}%`} icon={TrendingUp} color="brand" />
+                            </div>
+
+                            {/* Vivid Community Section */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                                <div className="lg:col-span-2 h-[420px]">
+                                    <ActivityFeed />
+                                </div>
+                                <div className="lg:col-span-1 h-[420px]">
+                                    <TrendingGames />
+                                </div>
                             </div>
 
                             {/* Recently Updated Games */}

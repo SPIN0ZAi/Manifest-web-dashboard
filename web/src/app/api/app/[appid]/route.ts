@@ -3,6 +3,8 @@ import { getGameJson, getLuaContent, getBranchFiles, branchExists } from '@/lib/
 import { getSteamAppDetails } from '@/lib/steam';
 import { parseGameDepots, generateNotes } from '@/lib/manifest-parser';
 import type { GameData, DlcInfo, DlcType } from '@/lib/types';
+import dbConnect from '@/lib/db/mongodb';
+import { Activity } from '@/lib/db/models/Activity';
 
 /**
  * Keywords that indicate a DLC is NOT a real content DLC.
@@ -240,6 +242,15 @@ export async function GET(
             isReleased: steamData ? !steamData.release_date?.coming_soon : true,
             price: steamData?.is_free ? 'Free' : steamData?.price_overview?.final_formatted || 'N/A',
         };
+
+        // Fire-and-forget activity log for vivid homepage
+        dbConnect().then(() => {
+            Activity.create({
+                actionType: 'view',
+                appId: appid,
+                gameName: gameData.name
+            }).catch(console.error);
+        }).catch(console.error);
 
         return NextResponse.json({ success: true, data: gameData, inDatabase: true });
     } catch (error) {
