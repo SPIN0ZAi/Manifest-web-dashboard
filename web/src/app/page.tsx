@@ -7,8 +7,39 @@ import { StatsCard } from '@/components/StatsCard';
 import { SkeletonCard } from '@/components/SkeletonCard';
 import { ActivityFeed } from '@/components/ActivityFeed';
 import { TrendingGames } from '@/components/TrendingGames';
-import { Gamepad2, Database, Package, TrendingUp, Loader2 } from 'lucide-react';
+import { Gamepad2, Database, Package, TrendingUp } from 'lucide-react';
 import type { StatsOverview } from '@/lib/types';
+
+/**
+ * Wrapper that only renders if at least one child feed has data.
+ * Avoids a massive blank gap when both ActivityFeed and TrendingGames are empty.
+ */
+function LiveCommunitySection() {
+    const [hasActivity, setHasActivity] = useState<boolean | null>(null); // null = loading
+
+    useEffect(() => {
+        fetch('/api/stats/activity')
+            .then(r => r.json())
+            .then(d => setHasActivity(d.success && d.data?.length > 0))
+            .catch(() => setHasActivity(false));
+    }, []);
+
+    // While checking, render nothing (avoids flash of empty space)
+    if (hasActivity === null) return null;
+    // No activity yet — hide entirely
+    if (!hasActivity) return null;
+
+    return (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="lg:col-span-2">
+                <ActivityFeed />
+            </div>
+            <div className="lg:col-span-1">
+                <TrendingGames />
+            </div>
+        </div>
+    );
+}
 
 export default function HomePage() {
     const [stats, setStats] = useState<StatsOverview | null>(null);
@@ -80,15 +111,8 @@ export default function HomePage() {
                                 <StatsCard label="Avg Completion" value={`${stats.averageCompletion}%`} icon={TrendingUp} color="brand" />
                             </div>
 
-                            {/* Vivid Community Section */}
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                                <div className="lg:col-span-2 h-[420px]">
-                                    <ActivityFeed />
-                                </div>
-                                <div className="lg:col-span-1 h-[420px]">
-                                    <TrendingGames />
-                                </div>
-                            </div>
+                            {/* Vivid Community Section — only shows when there is activity */}
+                            <LiveCommunitySection />
 
                             {/* Recently Updated Games */}
                             {stats.recentlyUpdated.length > 0 && (

@@ -182,8 +182,8 @@ export default function AppDetailPage() {
                                     onClick={handleTrack}
                                     disabled={trackLoading}
                                     className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl transition-all ${isTracked
-                                            ? 'bg-brand-500/20 text-brand-400 border border-brand-500/30 hover:bg-brand-500/30'
-                                            : 'bg-surface-200/80 text-white backdrop-blur border border-white/10 hover:bg-surface-300'
+                                        ? 'bg-brand-500/20 text-brand-400 border border-brand-500/30 hover:bg-brand-500/30'
+                                        : 'bg-surface-200/80 text-white backdrop-blur border border-white/10 hover:bg-surface-300'
                                         }`}
                                 >
                                     {trackLoading ? (
@@ -209,31 +209,33 @@ export default function AppDetailPage() {
                 </div>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex flex-wrap gap-3 mb-8">
-                <button
-                    onClick={() => handleAction('regenerate')}
-                    disabled={!!actionLoading}
-                    className="btn-primary flex items-center gap-2"
-                >
-                    {actionLoading === 'regenerate' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-                    Request Update
-                </button>
-                <button
-                    onClick={() => handleAction('sync')}
-                    disabled={!!actionLoading}
-                    className="btn-secondary flex items-center gap-2"
-                >
-                    {actionLoading === 'sync' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileCode className="w-4 h-4" />}
-                    Regenerate Lua
-                </button>
-                <a
-                    href={`/api/app/${appid}/download`}
-                    className="btn-secondary flex items-center gap-2"
-                >
-                    <Download className="w-4 h-4" /> Download ZIP
-                </a>
-            </div>
+            {/* Action buttons - Only show if game exists in GitHub database */}
+            {inDatabase && (
+                <div className="flex flex-wrap gap-3 mb-8">
+                    <button
+                        onClick={() => handleAction('regenerate')}
+                        disabled={!!actionLoading}
+                        className="btn-primary flex items-center gap-2"
+                    >
+                        {actionLoading === 'regenerate' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                        Request Update
+                    </button>
+                    <button
+                        onClick={() => handleAction('sync')}
+                        disabled={!!actionLoading}
+                        className="btn-secondary flex items-center gap-2"
+                    >
+                        {actionLoading === 'sync' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileCode className="w-4 h-4" />}
+                        Regenerate Lua
+                    </button>
+                    <a
+                        href={`/api/app/${appid}/download`}
+                        className="btn-secondary flex items-center gap-2"
+                    >
+                        <Download className="w-4 h-4" /> Download ZIP
+                    </a>
+                </div>
+            )}
 
             {actionMessage && (
                 <div className="glass-card p-4 mb-8 border-brand-500/30">

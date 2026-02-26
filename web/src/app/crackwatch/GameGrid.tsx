@@ -41,8 +41,8 @@ export function GameGrid({ initialGames }: { initialGames: any[] }) {
                             key={f}
                             onClick={() => setFilter(f)}
                             className={`px-4 py-1.5 text-sm font-medium rounded-lg capitalize transition-all ${filter === f
-                                    ? 'bg-brand-500 text-white shadow-lg'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                ? 'bg-brand-500 text-white shadow-lg'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             {f}
@@ -58,6 +58,22 @@ export function GameGrid({ initialGames }: { initialGames: any[] }) {
                         const isCracked = item.status === 'cracked';
                         const statusColor = isCracked ? 'text-green-400 border-green-500/30' : 'text-red-400 border-red-500/30';
                         const badgeBg = isCracked ? 'bg-green-500/10' : 'bg-red-500/10';
+
+                        // Calculate days since/until release
+                        const releaseDateObj = item.releaseDate && !isNaN(Date.parse(item.releaseDate)) ? new Date(item.releaseDate) : null;
+                        const today = new Date();
+                        const isReleased = releaseDateObj ? releaseDateObj <= today : true; // assume true if unknown
+                        let daysText = '';
+
+                        if (!isCracked && releaseDateObj) {
+                            const diffTime = Math.abs(today.getTime() - releaseDateObj.getTime());
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                            if (isReleased) {
+                                daysText = `Uncracked for ${diffDays} Day${diffDays === 1 ? '' : 's'}`;
+                            } else {
+                                daysText = `Releases in ${diffDays} Day${diffDays === 1 ? '' : 's'}`;
+                            }
+                        }
 
                         return (
                             <div
@@ -106,8 +122,15 @@ export function GameGrid({ initialGames }: { initialGames: any[] }) {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="text-red-400/80 font-medium text-xs uppercase tracking-wide">
-                                                Not Cracked Yet
+                                            <div className="flex flex-col">
+                                                <div className="text-red-400/80 font-medium text-xs uppercase tracking-wide">
+                                                    Not Cracked Yet
+                                                </div>
+                                                {daysText && (
+                                                    <div className="text-[10px] text-red-500/70 mt-0.5 font-mono">
+                                                        {daysText}
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
 

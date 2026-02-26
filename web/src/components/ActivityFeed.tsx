@@ -63,7 +63,7 @@ export function ActivityFeed() {
 
     if (loading && activities.length === 0) {
         return (
-            <div className="glass-card p-6 h-full flex items-center justify-center min-h-[300px]">
+            <div className="glass-card p-6 flex items-center justify-center h-[420px]">
                 <Sparkles className="w-6 h-6 text-brand-500 animate-pulse" />
             </div>
         );
@@ -74,7 +74,7 @@ export function ActivityFeed() {
     }
 
     return (
-        <div className="glass-card overflow-hidden flex flex-col h-full border-brand-500/10">
+        <div className="glass-card overflow-hidden flex flex-col border-brand-500/10 h-[420px]">
             <div className="p-5 border-b border-white/5 bg-surface-200/50 flex items-center gap-3">
                 <div className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
