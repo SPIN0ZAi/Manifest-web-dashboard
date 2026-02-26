@@ -5,27 +5,50 @@ import { ShieldAlert, Calendar, User, Search } from 'lucide-react';
 
 export function GameGrid({ initialGames }: { initialGames: any[] }) {
     const [searchQuery, setSearchQuery] = useState('');
+    const [filter, setFilter] = useState<'all' | 'cracked' | 'uncracked'>('all');
 
-    const filteredGames = initialGames.filter((game) =>
-        game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (game.cracker && game.cracker.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (game.drm && game.drm.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+    const filteredGames = initialGames.filter((game) => {
+        const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (game.cracker && game.cracker.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (game.drm && game.drm.toLowerCase().includes(searchQuery.toLowerCase()));
+
+        const matchesFilter = filter === 'all' || game.status === filter;
+
+        return matchesSearch && matchesFilter;
+    });
 
     return (
         <div className="flex flex-col gap-6">
-            {/* Search Bar */}
-            <div className="relative max-w-xl mb-4">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
+            <div className="flex flex-col sm:flex-row gap-4 mb-4 items-start sm:items-center justify-between">
+                {/* Search Bar */}
+                <div className="relative w-full max-w-xl">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        className="block w-full pl-11 pr-4 py-3 bg-surface-200 border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                        placeholder="Search for a game, cracker, or protection..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                 </div>
-                <input
-                    type="text"
-                    className="block w-full pl-11 pr-4 py-3 bg-surface-200 border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-                    placeholder="Search for a game, cracker, or protection..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+
+                {/* Filter Toggles */}
+                <div className="flex bg-surface-200 p-1.5 rounded-xl border border-white/5 whitespace-nowrap">
+                    {(['all', 'cracked', 'uncracked'] as const).map((f) => (
+                        <button
+                            key={f}
+                            onClick={() => setFilter(f)}
+                            className={`px-4 py-1.5 text-sm font-medium rounded-lg capitalize transition-all ${filter === f
+                                    ? 'bg-brand-500 text-white shadow-lg'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {f}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {/* Grid */}
