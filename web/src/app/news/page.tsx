@@ -1,7 +1,11 @@
 import { ShieldCheck, ShieldAlert, Calendar, User, ExternalLink } from 'lucide-react';
-import denuvoData from '@/lib/data/denuvo.json';
+import fs from 'fs';
+import path from 'path';
 
 export default function NewsPage() {
+    const filePath = path.join(process.cwd(), 'src', 'lib', 'data', 'denuvo.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const denuvoData = JSON.parse(fileContents);
     const news = denuvoData.games;
 
     return (
