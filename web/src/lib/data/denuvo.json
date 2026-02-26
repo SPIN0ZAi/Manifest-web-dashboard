@@ -1,142 +1,547 @@
 {
-    "games": [
-        {
-            "id": "black-myth-wukong",
-            "title": "Black Myth: Wukong",
-            "status": "uncracked",
-            "releaseDate": "2024-08-20",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg"
-        },
-        {
-            "id": "star-wars-outlaws",
-            "title": "Star Wars Outlaws",
-            "status": "uncracked",
-            "releaseDate": "2024-08-30",
-            "drm": "Denuvo + Ubisoft Connect",
-            "image": "https://image.api.playstation.com/vulcan/ap/rnd/202403/2513/193019803bf2ab990b79add39b2cf6077ff4d400e9ecad18.png"
-        },
-        {
-            "id": "dragons-dogma-2",
-            "title": "Dragon's Dogma 2",
-            "status": "uncracked",
-            "releaseDate": "2024-03-22",
-            "drm": "Denuvo + Enigma Protector",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2054970/header.jpg"
-        },
-        {
-            "id": "assassins-creed-mirage",
-            "title": "Assassin's Creed Mirage",
-            "status": "uncracked",
-            "releaseDate": "2023-10-05",
-            "drm": "Denuvo + VMProtect",
-            "image": "https://image.api.playstation.com/vulcan/ap/rnd/202208/1718/wX4N0iT0VGEI6A9x0B2W2Bw5.png"
-        },
-        {
-            "id": "jedi-survivor",
-            "title": "STAR WARS Jedi: Survivor",
-            "status": "cracked",
-            "cracker": "P2P",
-            "crackDate": "2024-05",
-            "releaseDate": "2023-04-28",
-            "drm": "Denuvo + EA App",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1774580/header.jpg"
-        },
-        {
-            "id": "hogwarts-legacy",
-            "title": "Hogwarts Legacy",
-            "status": "cracked",
-            "cracker": "EMPRESS",
-            "crackDate": "2023-02-23",
-            "releaseDate": "2023-02-10",
-            "drm": "Denuvo v17",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg"
-        },
-        {
-            "id": "resident-evil-4-remake",
-            "title": "Resident Evil 4",
-            "status": "cracked",
-            "cracker": "EMPRESS",
-            "crackDate": "2023-05-14",
-            "releaseDate": "2023-03-24",
-            "drm": "Denuvo v17 + VMProtect",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg"
-        },
-        {
-            "id": "dead-space-remake",
-            "title": "Dead Space (2023)",
-            "status": "cracked",
-            "cracker": "P2P",
-            "crackDate": "2026-01",
-            "releaseDate": "2023-01-27",
-            "drm": "Denuvo + EA App",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1693980/header.jpg"
-        },
-        {
-            "id": "persona-3-reload",
-            "title": "Persona 3 Reload",
-            "status": "uncracked",
-            "releaseDate": "2024-02-02",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2161700/header.jpg"
-        },
-        {
-            "id": "like-a-dragon-infinite-wealth",
-            "title": "Like a Dragon: Infinite Wealth",
-            "status": "uncracked",
-            "releaseDate": "2024-01-25",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/header.jpg"
-        },
-        {
-            "id": "tekken-8",
-            "title": "TEKKEN 8",
-            "status": "cracked",
-            "cracker": "P2P",
-            "crackDate": "2024",
-            "releaseDate": "2024-01-25",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1778820/header.jpg"
-        },
-        {
-            "id": "lies-of-p",
-            "title": "Lies of P",
-            "status": "cracked",
-            "cracker": "RUNE (Denuvo removed officially later)",
-            "crackDate": "2024-02-15",
-            "releaseDate": "2023-09-18",
-            "drm": "Denuvo (Removed)",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1627720/header.jpg"
-        },
-        {
-            "id": "dead-island-2",
-            "title": "Dead Island 2",
-            "status": "cracked",
-            "cracker": "EMPRESS",
-            "crackDate": "2023-07-16",
-            "releaseDate": "2023-04-21",
-            "drm": "Denuvo v18",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/932810/header.jpg"
-        },
-        {
-            "id": "doom-eternal",
-            "title": "DOOM Eternal",
-            "status": "cracked",
-            "cracker": "Bethesda (Accidental DRM-free exe)",
-            "crackDate": "2020-03-20",
-            "releaseDate": "2020-03-20",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/782330/header.jpg"
-        },
-        {
-            "id": "judgment",
-            "title": "Judgment",
-            "status": "cracked",
-            "cracker": "EMPRESS",
-            "crackDate": "2023-08-16",
-            "releaseDate": "2022-09-14",
-            "drm": "Denuvo",
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2058180/header.jpg"
-        }
-    ]
+  "games": [
+    {
+      "id": "black-myth-wukong",
+      "title": "Black Myth: Wukong",
+      "status": "uncracked",
+      "releaseDate": "2024-08-20",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg"
+    },
+    {
+      "id": "star-wars-outlaws",
+      "title": "Star Wars Outlaws",
+      "status": "uncracked",
+      "releaseDate": "2024-08-30",
+      "drm": "Denuvo + Ubisoft Connect",
+      "image": "https://image.api.playstation.com/vulcan/ap/rnd/202403/2513/193019803bf2ab990b79add39b2cf6077ff4d400e9ecad18.png"
+    },
+    {
+      "id": "dragons-dogma-2",
+      "title": "Dragon's Dogma 2",
+      "status": "cracked",
+      "releaseDate": "2024-03-22",
+      "drm": "Denuvo + Enigma Protector",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2054970/header.jpg"
+    },
+    {
+      "id": "assassins-creed-mirage",
+      "title": "Assassin's Creed Mirage",
+      "status": "cracked",
+      "releaseDate": "2023-10-05",
+      "drm": "Denuvo + VMProtect",
+      "image": "https://image.api.playstation.com/vulcan/ap/rnd/202208/1718/wX4N0iT0VGEI6A9x0B2W2Bw5.png"
+    },
+    {
+      "id": "jedi-survivor",
+      "title": "STAR WARS Jedi: Survivor",
+      "status": "cracked",
+      "cracker": "P2P",
+      "crackDate": "2024-05",
+      "releaseDate": "2023-04-28",
+      "drm": "Denuvo + EA App",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1774580/header.jpg"
+    },
+    {
+      "id": "hogwarts-legacy",
+      "title": "Hogwarts Legacy",
+      "status": "cracked",
+      "cracker": "EMPRESS",
+      "crackDate": "2023-02-23",
+      "releaseDate": "2023-02-10",
+      "drm": "Denuvo v17",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg"
+    },
+    {
+      "id": "resident-evil-4-remake",
+      "title": "Resident Evil 4",
+      "status": "cracked",
+      "cracker": "EMPRESS",
+      "crackDate": "2023-05-14",
+      "releaseDate": "2023-03-24",
+      "drm": "Denuvo v17 + VMProtect",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg"
+    },
+    {
+      "id": "dead-space-remake",
+      "title": "Dead Space (2023)",
+      "status": "cracked",
+      "cracker": "P2P",
+      "crackDate": "2026-01",
+      "releaseDate": "2023-01-27",
+      "drm": "Denuvo + EA App",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1693980/header.jpg"
+    },
+    {
+      "id": "persona-3-reload",
+      "title": "Persona 3 Reload",
+      "status": "uncracked",
+      "releaseDate": "2024-02-02",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2161700/header.jpg"
+    },
+    {
+      "id": "like-a-dragon-infinite-wealth",
+      "title": "Like a Dragon: Infinite Wealth",
+      "status": "uncracked",
+      "releaseDate": "2024-01-25",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/header.jpg"
+    },
+    {
+      "id": "tekken-8",
+      "title": "TEKKEN 8",
+      "status": "cracked",
+      "cracker": "P2P",
+      "crackDate": "2024",
+      "releaseDate": "2024-01-25",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1778820/header.jpg"
+    },
+    {
+      "id": "lies-of-p",
+      "title": "Lies of P",
+      "status": "cracked",
+      "cracker": "RUNE (Denuvo removed officially later)",
+      "crackDate": "2024-02-15",
+      "releaseDate": "2023-09-18",
+      "drm": "Denuvo (Removed)",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1627720/header.jpg"
+    },
+    {
+      "id": "dead-island-2",
+      "title": "Dead Island 2",
+      "status": "cracked",
+      "cracker": "EMPRESS",
+      "crackDate": "2023-07-16",
+      "releaseDate": "2023-04-21",
+      "drm": "Denuvo v18",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/932810/header.jpg"
+    },
+    {
+      "id": "doom-eternal",
+      "title": "DOOM Eternal",
+      "status": "cracked",
+      "cracker": "Bethesda (Accidental DRM-free exe)",
+      "crackDate": "2020-03-20",
+      "releaseDate": "2020-03-20",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/782330/header.jpg"
+    },
+    {
+      "id": "judgment",
+      "title": "Judgment",
+      "status": "cracked",
+      "cracker": "EMPRESS",
+      "crackDate": "2023-08-16",
+      "releaseDate": "2022-09-14",
+      "drm": "Denuvo",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2058180/header.jpg"
+    },
+    {
+      "id": "little-nightmares-3",
+      "title": "Little Nightmares 3",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "notes": "Cracked shortly after release",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "absolum",
+      "title": "Absolum",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "yooka-replaylee",
+      "title": "Yooka‑Replaylee",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "the-sims-4-adventure-awaits",
+      "title": "The Sims 4: Adventure Awaits",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "train-sim-world-6",
+      "title": "Train Sim World 6",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "silent-hill-f",
+      "title": "Silent Hill: f",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "pac-man-world-2-re-pac",
+      "title": "Pac‑Man World 2 Re‑Pac",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "hades-2",
+      "title": "Hades 2",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "daemon-x-machina-titanic-scion",
+      "title": "Daemon X Machina: Titanic Scion",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "hollow-knight-silksong",
+      "title": "Hollow Knight: Silksong",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "lost-soul-aside",
+      "title": "Lost Soul Aside",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "no-man-s-sky-voyagers",
+      "title": "No Man’s Sky: Voyagers",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "gears-of-war-reloaded",
+      "title": "Gears of War: Reloaded",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "alan-wake-ii",
+      "title": "Alan Wake II",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "call-of-duty-modern-warfare-3",
+      "title": "Call of Duty: Modern Warfare 3",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "starfield",
+      "title": "Starfield",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "baldur-s-gate-3",
+      "title": "Baldur’s Gate 3",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "elden-ring",
+      "title": "Elden Ring",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "god-of-war",
+      "title": "God of War",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "far-cry-6",
+      "title": "Far Cry 6",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "grand-theft-auto-5",
+      "title": "Grand Theft Auto 5",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "terraria",
+      "title": "Terraria",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "euro-truck-simulator-2",
+      "title": "Euro Truck Simulator 2",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "half-life-2",
+      "title": "Half‑Life 2",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "it-takes-two",
+      "title": "It Takes Two",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "watch-dogs-legion",
+      "title": "Watch Dogs: Legion",
+      "status": "cracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": "",
+      "cracker": "Scene",
+      "crackDate": "Unknown"
+    },
+    {
+      "id": "new-world-aeternum",
+      "title": "New World: Aeternum",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "valheim",
+      "title": "Valheim",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "bye-sweet-carole",
+      "title": "Bye Sweet Carole",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "blue-protocol-star-resonance",
+      "title": "Blue Protocol: Star Resonance",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "king-of-meat",
+      "title": "King of Meat",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "seafarer-the-ship-sim",
+      "title": "Seafarer: The Ship Sim",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "deathground",
+      "title": "Deathground",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "ea-sports-fc-26",
+      "title": "EA Sports FC 26",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "sonic-racing-crossworlds",
+      "title": "Sonic Racing: CrossWorlds",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "borderlands-4",
+      "title": "Borderlands 4",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "nba-2k26",
+      "title": "NBA 2K26",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "mafia-the-old-country",
+      "title": "Mafia: The Old Country",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "monster-hunter-wilds",
+      "title": "Monster Hunter Wilds",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "persona-5-royal",
+      "title": "Persona 5 Royal",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "total-war-warhammer-iii",
+      "title": "Total War: WARHAMMER III",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "counter-strike-2",
+      "title": "Counter‑Strike 2",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "diablo-iv",
+      "title": "Diablo IV",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    },
+    {
+      "id": "helldivers-2",
+      "title": "Helldivers 2",
+      "status": "uncracked",
+      "releaseDate": "Unknown",
+      "drm": "Unknown",
+      "image": ""
+    }
+  ]
 }
