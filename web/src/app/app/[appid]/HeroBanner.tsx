@@ -12,7 +12,11 @@ interface HeroBannerProps {
 
 export function HeroBanner({ game, appid }: HeroBannerProps) {
     const [bgFailed, setBgFailed] = useState(false);
-    const capsuleUrl = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
+    const [thumbFailed, setThumbFailed] = useState(false);
+    // Use the standard header image (works for all games) as primary
+    const bgUrl = game.headerImage;
+    // Try capsule for the thumbnail but fallback to header
+    const thumbUrl = thumbFailed ? game.headerImage : `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
     const releaseYear = game.releaseDate ? new Date(game.releaseDate).getFullYear() : null;
 
     return (
@@ -20,7 +24,7 @@ export function HeroBanner({ game, appid }: HeroBannerProps) {
             {/* Blurred Background */}
             {!bgFailed && (
                 <Image
-                    src={capsuleUrl}
+                    src={bgUrl}
                     alt=""
                     fill
                     className="object-cover scale-110"
@@ -45,11 +49,12 @@ export function HeroBanner({ game, appid }: HeroBannerProps) {
                     <div className="relative w-[140px] h-[200px] rounded-xl overflow-hidden shadow-2xl border border-white/10">
                         {!bgFailed ? (
                             <Image
-                                src={capsuleUrl}
+                                src={thumbUrl}
                                 alt={game.name}
                                 fill
                                 className="object-cover"
                                 sizes="140px"
+                                onError={() => setThumbFailed(true)}
                             />
                         ) : (
                             <div className="w-full h-full bg-surface-300 flex items-center justify-center">
