@@ -1,39 +1,44 @@
-import { ShieldCheck, ShieldAlert, Calendar, User, ExternalLink } from 'lucide-react';
-import dbConnect from '@/lib/db/mongodb';
-import { Game } from '@/lib/db/models/Game';
+'use client';
 
-export const revalidate = 60; // Cache invalidation
+import { useState } from 'react';
+import { ShieldAlert, Calendar, User, Search } from 'lucide-react';
 
-export default async function NewsPage() {
-    await dbConnect();
+export function GameGrid({ initialGames }: { initialGames: any[] }) {
+    const [searchQuery, setSearchQuery] = useState('');
 
-    // Fetch games from MongoDB, sort by most recently created/updated
-    const news = await Game.find({}).sort({ createdAt: -1 }).lean();
+    const filteredGames = initialGames.filter((game) =>
+        game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (game.cracker && game.cracker.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (game.drm && game.drm.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
     return (
-        <div className="min-h-screen bg-surface-50 pt-24 pb-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-purple-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
-                            <ShieldCheck className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                            <h1 className="text-3xl font-bold text-white tracking-tight">Denuvo Games Tracker</h1>
-                            <p className="text-gray-400 mt-1">Status of popular Denuvo protected games</p>
-                        </div>
-                    </div>
+        <div className="flex flex-col gap-6">
+            {/* Search Bar */}
+            <div className="relative max-w-xl mb-4">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-gray-400" />
                 </div>
+                <input
+                    type="text"
+                    className="block w-full pl-11 pr-4 py-3 bg-surface-200 border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                    placeholder="Search for a game, cracker, or protection..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {news.map((item: any) => {
+            {/* Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredGames.length > 0 ? (
+                    filteredGames.map((item: any) => {
                         const isCracked = item.status === 'cracked';
                         const statusColor = isCracked ? 'text-green-400 border-green-500/30' : 'text-red-400 border-red-500/30';
                         const badgeBg = isCracked ? 'bg-green-500/10' : 'bg-red-500/10';
 
                         return (
                             <div
-                                key={item.id}
+                                key={item.id || item._id}
                                 className="group bg-surface hover:bg-surface-100 rounded-2xl border border-white/5 transition-all duration-300 overflow-hidden flex flex-col relative"
                             >
                                 {/* Thumbnail */}
@@ -92,8 +97,12 @@ export default async function NewsPage() {
                                 </div>
                             </div>
                         );
-                    })}
-                </div>
+                    })
+                ) : (
+                    <div className="col-span-full py-12 text-center text-gray-400 bg-surface/50 rounded-2xl border border-white/5">
+                        No games found matching your search.
+                    </div>
+                )}
             </div>
         </div>
     );

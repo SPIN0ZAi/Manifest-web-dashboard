@@ -8,7 +8,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 const navLinks = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/news', label: 'News', icon: Newspaper },
+    { href: '/crackwatch', label: 'Crackwatch', icon: ShieldCheck },
     { href: '/search', label: 'Search', icon: Search },
     { href: '/stats', label: 'Statistics', icon: BarChart3 },
 ];
