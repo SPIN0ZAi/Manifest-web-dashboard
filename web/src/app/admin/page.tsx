@@ -532,13 +532,22 @@ export default function AdminPage() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-2">Crack Date</label>
-                                    <input
-                                        type="text"
-                                        value={gameForm.crackDate}
-                                        onChange={(e) => setGameForm({ ...gameForm, crackDate: e.target.value })}
-                                        className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
-                                        placeholder="e.g. 2024-05"
-                                    />
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="text"
+                                            value={gameForm.crackDate}
+                                            onChange={(e) => setGameForm({ ...gameForm, crackDate: e.target.value })}
+                                            className="w-full bg-surface-200 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-500"
+                                            placeholder="e.g. 2024-05 or Day 1"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setGameForm({ ...gameForm, crackDate: 'Day 1' })}
+                                            className="px-3 py-2.5 bg-brand-500/20 hover:bg-brand-500/30 text-brand-400 text-sm font-medium border border-brand-500/30 rounded-xl transition-colors whitespace-nowrap"
+                                        >
+                                            Day 1
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         )}
