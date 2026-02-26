@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CheckCircle, AlertCircle, Gamepad2 } from 'lucide-react';
+import { CheckCircle, AlertCircle, Gamepad2, HardDrive } from 'lucide-react';
 
 interface GameCardProps {
     appId: number;
@@ -14,6 +14,7 @@ interface GameCardProps {
     totalDlc?: number;
     updateTime?: string;
     price?: string;
+    depotCount?: number;
 }
 
 export function GameCard({
@@ -25,6 +26,7 @@ export function GameCard({
     totalDlc,
     updateTime,
     price,
+    depotCount,
 }: GameCardProps) {
     const [imgFailed, setImgFailed] = useState(false);
 
@@ -96,6 +98,21 @@ export function GameCard({
                             )}
                             {totalDlc !== undefined && totalDlc > 0 && (
                                 <span className="text-xs text-gray-500">{totalDlc} DLC</span>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Depot badge */}
+                    {depotCount !== undefined && (
+                        <div className="mt-2">
+                            {depotCount > 0 ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full border border-green-500/15">
+                                    <HardDrive className="w-2.5 h-2.5" /> {depotCount} depots
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-white/5 text-gray-500 text-[10px] font-medium rounded-full">
+                                    No manifest
+                                </span>
                             )}
                         </div>
                     )}

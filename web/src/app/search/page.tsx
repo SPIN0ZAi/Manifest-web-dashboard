@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SearchBar } from '@/components/SearchBar';
 import { GameCard } from '@/components/GameCard';
+import { SkeletonCard } from '@/components/SkeletonCard';
 import { Search, Loader2 } from 'lucide-react';
 import type { SearchResult } from '@/lib/types';
 
@@ -11,6 +12,7 @@ function SearchContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q') || '';
     const [results, setResults] = useState<(SearchResult & { isAvailable?: boolean })[]>([]);
+    const [depotData, setDepotData] = useState<Record<number, number>>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -21,9 +23,25 @@ function SearchContent() {
 
         fetch(`/api/search?q=${encodeURIComponent(query)}`)
             .then((res) => res.json())
-            .then((data) => {
-                if (data.success) setResults(data.data.results);
-                else setError(data.error || 'Search failed');
+            .then(async (data) => {
+                if (data.success) {
+                    setResults(data.data.results);
+                    // Batch check depot availability
+                    const checks = await Promise.allSettled(
+                        data.data.results.slice(0, 12).map(async (r: SearchResult) => {
+                            const res = await fetch(`/api/manifest/check?appId=${r.appId}`);
+                            const json = await res.json();
+                            return { appId: r.appId, depotCount: json.depotCount || 0 };
+                        })
+                    );
+                    const depots: Record<number, number> = {};
+                    checks.forEach((c) => {
+                        if (c.status === 'fulfilled') depots[c.value.appId] = c.value.depotCount;
+                    });
+                    setDepotData(depots);
+                } else {
+                    setError(data.error || 'Search failed');
+                }
             })
             .catch(() => setError('Network error'))
             .finally(() => setLoading(false));
@@ -51,8 +69,10 @@ function SearchContent() {
             )}
 
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <Loader2 className="w-8 h-8 text-brand-500 animate-spin" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <SkeletonCard key={i} />
+                    ))}
                 </div>
             ) : error ? (
                 <div className="text-center py-20">
@@ -68,6 +88,7 @@ function SearchContent() {
                             headerImage={result.headerImage}
                             isAvailable={result.isAvailable}
                             price={result.price}
+                            depotCount={depotData[result.appId]}
                         />
                     ))}
                 </div>
@@ -88,3 +109,4 @@ export default function SearchPage() {
         </Suspense>
     );
 }
+

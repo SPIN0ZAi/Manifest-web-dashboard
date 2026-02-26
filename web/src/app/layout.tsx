@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Navbar } from '@/components/Navbar';
 import AuthProvider from '@/components/AuthProvider';
 import { AccessGate } from '@/components/AccessGate';
+import { CommandPalette } from '@/components/CommandPalette';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({
                     <AccessGate>
                         <Navbar />
                         <main className="pt-16">{children}</main>
+                        <CommandPalette />
                     </AccessGate>
                 </AuthProvider>
 

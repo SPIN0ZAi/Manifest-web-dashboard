@@ -1,20 +1,15 @@
 export function SkeletonCard() {
     return (
-        <div className="block group">
-            <div className="glass-card-hover overflow-hidden h-full flex flex-col">
-                {/* Image Placeholder */}
-                <div className="relative aspect-[460/215] bg-surface-200 animate-pulse" />
-
-                {/* Content Placeholder */}
-                <div className="p-4 flex flex-col flex-grow">
-                    {/* Title */}
-                    <div className="h-4 bg-surface-300 rounded animate-pulse w-3/4 mb-4" />
-
-                    {/* Info Row */}
-                    <div className="flex items-center justify-between mt-auto">
-                        <div className="h-3 bg-surface-200 rounded animate-pulse w-1/4" />
-                        <div className="h-3 bg-surface-200 rounded animate-pulse w-1/5" />
-                    </div>
+        <div className="rounded-2xl border border-white/5 overflow-hidden bg-surface animate-shimmer">
+            {/* Image area */}
+            <div className="h-44 w-full bg-white/5" />
+            {/* Content */}
+            <div className="p-4 space-y-3">
+                <div className="h-4 bg-white/5 rounded-full w-3/4" />
+                <div className="h-3 bg-white/5 rounded-full w-1/2" />
+                <div className="flex gap-2 mt-2">
+                    <div className="h-6 w-16 bg-white/5 rounded-lg" />
+                    <div className="h-6 w-12 bg-white/5 rounded-lg" />
                 </div>
             </div>
         </div>
