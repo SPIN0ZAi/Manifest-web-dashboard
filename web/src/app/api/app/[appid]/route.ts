@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { getGameJson, getLuaContent, getBranchFiles, branchExists } from '@/lib/github';
 import { getSteamAppDetails } from '@/lib/steam';
 import { parseGameDepots, generateNotes } from '@/lib/manifest-parser';
@@ -244,11 +246,16 @@ export async function GET(
         };
 
         // Fire-and-forget activity log for vivid homepage
+        const session = await getServerSession(authOptions);
+        const sessionUser = session?.user as any;
         dbConnect().then(() => {
             Activity.create({
                 actionType: 'view',
                 appId: appid,
-                gameName: gameData.name
+                gameName: gameData.name,
+                discordId: sessionUser?.id || undefined,
+                username: sessionUser?.name || undefined,
+                metadata: sessionUser?.image ? { avatar: sessionUser.image } : undefined,
             }).catch(console.error);
         }).catch(console.error);
 

@@ -10,6 +10,8 @@ interface ActivityLog {
     appId?: string;
     gameName?: string;
     username?: string;
+    discordId?: string;
+    metadata?: { avatar?: string };
     createdAt: string;
 }
 
@@ -92,13 +94,26 @@ export function ActivityFeed() {
                     {activities.map((log) => (
                         <div key={log._id} className="group flex gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors animate-fade-in relative overflow-hidden">
                             <div className="mt-0.5 flex-shrink-0">
-                                <div className="p-2 rounded-lg bg-surface-300 border border-white/5 shadow-inner">
-                                    {getIcon(log.actionType)}
-                                </div>
+                                {log.metadata?.avatar ? (
+                                    <img
+                                        src={log.metadata.avatar}
+                                        alt={log.username || 'User'}
+                                        className="w-8 h-8 rounded-full border border-white/10 object-cover"
+                                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                    />
+                                ) : log.username ? (
+                                    <div className="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-xs font-bold text-brand-400">
+                                        {log.username.charAt(0).toUpperCase()}
+                                    </div>
+                                ) : (
+                                    <div className="p-2 rounded-lg bg-surface-300 border border-white/5 shadow-inner">
+                                        {getIcon(log.actionType)}
+                                    </div>
+                                )}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm text-gray-300 leading-snug">
-                                    <span className="text-gray-500">{log.username || 'Someone'}</span> {getMessage(log)}
+                                    <span className={log.username ? 'text-white font-medium' : 'text-gray-500'}>{log.username || 'Someone'}</span> {getMessage(log)}
                                 </p>
                                 <p className="text-xs text-brand-500/70 mt-1 font-mono">
                                     {formatDistanceToNow(new Date(log.createdAt), { addSuffix: true })}
