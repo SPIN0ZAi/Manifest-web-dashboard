@@ -92,7 +92,7 @@ export function ActivityFeed() {
 
                 <div className="flex flex-col gap-1 p-2 max-h-[350px] overflow-y-auto no-scrollbar">
                     {activities.map((log) => (
-                        <div key={log._id} className="group flex gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors animate-fade-in relative overflow-hidden">
+                        <div key={log._id} className="group flex gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors animate-fade-in">
                             <div className="mt-0.5 flex-shrink-0">
                                 {log.metadata?.avatar ? (
                                     <img
@@ -112,7 +112,7 @@ export function ActivityFeed() {
                                 )}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm text-gray-300 leading-snug">
+                                <p className="text-sm text-gray-300 leading-snug truncate">
                                     <span className={log.username ? 'text-white font-medium' : 'text-gray-500'}>{log.username || 'Someone'}</span> {getMessage(log)}
                                 </p>
                                 <p className="text-xs text-brand-500/70 mt-1 font-mono">
