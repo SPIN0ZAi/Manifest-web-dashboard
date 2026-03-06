@@ -18,7 +18,7 @@ export function Navbar() {
     const pathname = usePathname();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { data: session, status } = useSession();
-    const isAdmin = (session?.user as any)?.id === '302125862340526120';
+    const isAdmin = (session?.user as any)?.role === 'admin';
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
