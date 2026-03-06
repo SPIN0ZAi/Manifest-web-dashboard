@@ -21,7 +21,8 @@ export async function POST(req: Request) {
         }
 
         // Prevent admin from locking themselves out (safety check)
-        if (discordId === '302125862340526120' && status !== 'approved') {
+        const rootAdminIds = ['302125862340526120', '588896596742373398'];
+        if (rootAdminIds.includes(discordId) && status !== 'approved') {
             return NextResponse.json({ success: false, error: 'Cannot alter root admin status' }, { status: 400 });
         }
 

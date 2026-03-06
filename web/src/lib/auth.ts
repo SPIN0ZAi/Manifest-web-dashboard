@@ -17,7 +17,8 @@ export const authOptions = {
                 try {
                     await dbConnect();
                     const discordId = profile.id;
-                    const isAdmin = discordId === '302125862340526120';
+                    const adminIds = ['302125862340526120', '588896596742373398'];
+                    const isAdmin = adminIds.includes(discordId);
 
                     const updateFields: any = {
                         username: user.name,
@@ -56,7 +57,8 @@ export const authOptions = {
                 try {
                     await dbConnect();
                     const dbUser = await User.findOne({ discordId: token.sub }).lean();
-                    const isAdmin = token.sub === '302125862340526120';
+                    const adminIds = ['302125862340526120', '588896596742373398'];
+                    const isAdmin = adminIds.includes(token.sub);
                     console.log(`[NextAuth Session] Discord ID: ${token.sub}, DB User exists: ${!!dbUser}, DB Access Status: ${dbUser?.accessStatus}`);
 
                     if (dbUser) {

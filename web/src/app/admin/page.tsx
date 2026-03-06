@@ -247,7 +247,8 @@ export default function AdminPage() {
         return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
     }
 
-    if (!session || (session.user as any)?.id !== '302125862340526120') {
+    const adminIds = ['302125862340526120', '588896596742373398'];
+    if (!session || !adminIds.includes((session.user as any)?.id)) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-4">
                 <ShieldAlert className="w-16 h-16 text-red-500 mb-4" />
