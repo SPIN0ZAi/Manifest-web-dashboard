@@ -133,6 +133,7 @@ export async function checkGameNeedsUpdate(appId) {
     });
     
     if (!gameData) {
+      // Game has no DB record yet — skip update check silently (manifests live on GitHub)
       result.error = 'Game not found in database';
       return result;
     }

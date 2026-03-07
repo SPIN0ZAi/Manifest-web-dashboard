@@ -1345,6 +1345,8 @@ async function executeCommand(interaction, startTime, gameInput, guildId, user) 
         if (manifestUpdateResult.updated && manifestUpdateResult.hasUpdate) {
           const updateCount = Object.keys(manifestUpdateResult.depotUpdates || {}).length;
           console.log(`[MANIFEST] ✅ Background update completed for ${appId}: ${updateCount} depots updated`);
+        } else if (manifestUpdateResult.error === 'Game not found in database') {
+          // Expected for games not yet tracked in DB — not a real error
         } else if (manifestUpdateResult.error) {
           console.log(`[MANIFEST] ⚠️ Background update check failed for ${appId}: ${manifestUpdateResult.error}`);
         } else {
