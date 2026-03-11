@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { Navbar } from '@/components/Navbar';
 import AuthProvider from '@/components/AuthProvider';
 import { AccessGate } from '@/components/AccessGate';
 import { CommandPalette } from '@/components/CommandPalette';
 import './globals.css';
+
+const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-mono' });
 
 export const metadata: Metadata = {
     title: 'Project Cairo — SB Manifest Dashboard',
@@ -17,7 +21,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
             <body className="min-h-screen bg-surface">
                 <AuthProvider>
                     <AccessGate>
@@ -26,12 +30,6 @@ export default function RootLayout({
                         <CommandPalette />
                     </AccessGate>
                 </AuthProvider>
-
-                {/* Ambient background gradient */}
-                <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-                    <div className="absolute -top-[40%] -left-[20%] w-[60%] h-[60%] bg-brand-600/5 rounded-full blur-[120px]" />
-                    <div className="absolute -bottom-[30%] -right-[20%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[120px]" />
-                </div>
             </body>
         </html>
     );

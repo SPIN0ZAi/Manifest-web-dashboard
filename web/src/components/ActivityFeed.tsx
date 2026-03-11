@@ -89,7 +89,6 @@ export function ActivityFeed() {
         <div className="glass-card overflow-hidden flex flex-col border-brand-500/10 h-[420px]">
             <div className="p-5 border-b border-white/5 bg-surface-200/50 flex items-center gap-3">
                 <div className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                 </div>
                 <h3 className="text-sm font-semibold text-white tracking-wide uppercase">Live Community Feed</h3>

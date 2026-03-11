@@ -24,7 +24,7 @@ export function StatsCard({ label, value, icon: Icon, trend, color = 'brand' }: 
     };
 
     return (
-        <div className="glass-card p-6 animate-fade-in">
+        <div className="glass-card p-6">
             <div className="flex items-start justify-between">
                 <div>
                     <p className="text-sm text-gray-400 mb-1">{label}</p>

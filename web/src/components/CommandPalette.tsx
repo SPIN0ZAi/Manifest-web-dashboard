@@ -96,14 +96,14 @@ export function CommandPalette() {
         <div className="fixed inset-0 z-[999] flex items-start justify-center pt-[15vh]">
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/70"
                 onClick={() => setOpen(false)}
                 style={{ animation: 'fadeIn 0.15s ease-out' }}
             />
 
             {/* Modal */}
             <div
-                className="relative w-full max-w-xl mx-4 bg-surface-100/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+                className="relative w-full max-w-xl mx-4 bg-surface-100 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
                 style={{ animation: 'scaleIn 0.15s ease-out' }}
             >
                 {/* Search input */}

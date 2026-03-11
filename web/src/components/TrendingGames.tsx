@@ -53,9 +53,8 @@ export function TrendingGames() {
                         <Link
                             key={game._id || index}
                             href={game.appId ? `/app/${game.appId}` : `/search?q=${encodeURIComponent(game._id)}`}
-                            className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-all group relative overflow-hidden"
+                            className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/0 to-purple-500/5 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
 
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${index === 0 ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]' :
                                 index === 1 ? 'bg-gray-300/20 text-gray-300 border border-gray-300/30' :

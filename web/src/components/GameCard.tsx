@@ -48,7 +48,7 @@ export function GameCard({
                             alt={name}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover"
                             onError={() => setImgFailed(true)}
                         />
                     )}
@@ -57,12 +57,12 @@ export function GameCard({
                     {/* Availability badge */}
                     <div className="absolute top-3 right-3">
                         {isAvailable ? (
-                            <span className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-lg backdrop-blur-sm border border-green-500/20">
+                            <span className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-lg border border-green-500/20">
                                 <CheckCircle className="w-3 h-3" />
                                 Available
                             </span>
                         ) : (
-                            <span className="flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-medium rounded-lg backdrop-blur-sm border border-yellow-500/20">
+                            <span className="flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-medium rounded-lg border border-yellow-500/20">
                                 <AlertCircle className="w-3 h-3" />
                                 Not in DB
                             </span>
