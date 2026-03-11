@@ -29,7 +29,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-surface-100/80 backdrop-blur-xl border border-white/5 rounded-2xl;
+    @apply bg-surface-100/85 backdrop-blur-md border border-white/5 rounded-2xl;
   }
 
   .glass-card-hover {
@@ -119,15 +119,21 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Reduce heavy blur on lower-end devices/smaller screens */
+@media (max-width: 1024px) {
+  .glass-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }

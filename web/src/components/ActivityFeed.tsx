@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Activity, Search, Eye, Download, UserPlus, Sparkles } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -18,13 +18,23 @@ interface ActivityLog {
 export function ActivityFeed() {
     const [activities, setActivities] = useState<ActivityLog[]>([]);
     const [loading, setLoading] = useState(true);
+    const latestIdsRef = useRef<string>('');
 
     const fetchActivity = async () => {
+        if (typeof document !== 'undefined' && document.hidden) return;
+
         try {
             const res = await fetch('/api/stats/activity');
             const data = await res.json();
             if (data.success) {
-                setActivities(data.data);
+                const incoming = Array.isArray(data.data) ? data.data : [];
+                const nextIds = incoming.map((item: ActivityLog) => item._id).join('|');
+
+                // Skip state updates when payload is unchanged
+                if (nextIds !== latestIdsRef.current) {
+                    latestIdsRef.current = nextIds;
+                    setActivities(incoming);
+                }
             }
         } catch (e) {
             console.error('Failed to fetch activity', e);
@@ -35,7 +45,7 @@ export function ActivityFeed() {
 
     useEffect(() => {
         fetchActivity();
-        const interval = setInterval(fetchActivity, 15000); // Poll every 15s
+        const interval = setInterval(fetchActivity, 30000); // Poll every 30s
         return () => clearInterval(interval);
     }, []);
 
@@ -92,7 +102,7 @@ export function ActivityFeed() {
 
                 <div className="flex flex-col gap-1 p-2 max-h-[350px] overflow-y-auto no-scrollbar">
                     {activities.map((log) => (
-                        <div key={log._id} className="group flex gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors animate-fade-in">
+                        <div key={log._id} className="group flex gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors">
                             <div className="mt-0.5 flex-shrink-0">
                                 {log.metadata?.avatar ? (
                                     <img
