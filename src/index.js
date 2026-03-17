@@ -26,12 +26,13 @@ const client = new Client({
 // Bot owner ID from environment (no more hardcoded typo)
 const BOT_OWNER_ID = process.env.BOT_OWNER_ID || '';
 
+const SAFE_GUILD_ID = '1387992514388037803';
+
 // Upload command access (simple constants)
 const UPLOAD_COMMAND_NAMES = ['upload', 'uploadzip', 'uploadzipbulk'];
-const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
 
 function isUploadGuildAllowed(guildId) {
-    return !!guildId && (guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID);
+    return !!guildId && guildId === SAFE_GUILD_ID;
 }
 
 // Lightweight logger fallback (avoids hard dependency on logger.js in misconfigured hosts)
@@ -45,17 +46,8 @@ const logger = {
     child: () => logger,
 };
 
-// Whitelist of allowed server IDs from environment (comma-separated)
-const ALLOWED_SERVER_IDS = (process.env.ALLOWED_SERVER_IDS || '')
-    .split(',')
-    .map(id => id.trim())
-    .filter(Boolean);
-
-// Always include safe guild in whitelist
-const SAFE_GUILD_ID = process.env.SAFE_GUILD_ID || '';
-if (SAFE_GUILD_ID && !ALLOWED_SERVER_IDS.includes(SAFE_GUILD_ID)) {
-    ALLOWED_SERVER_IDS.push(SAFE_GUILD_ID);
-}
+// Only one allowed server
+const ALLOWED_SERVER_IDS = [SAFE_GUILD_ID];
 
 client.cooldowns = new Collection();
 client.commands = new Collection();

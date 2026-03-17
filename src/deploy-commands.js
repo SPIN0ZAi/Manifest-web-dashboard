@@ -9,13 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Safe guild ID from environment (where all commands including sensitive ones will be available)
-const SAFE_GUILD_ID = process.env.SAFE_GUILD_ID;
-const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
-
-if (!SAFE_GUILD_ID) {
-    console.error('❌ SAFE_GUILD_ID environment variable is not set. Cannot deploy commands.');
-    process.exit(1);
-}
+const SAFE_GUILD_ID = '1387992514388037803';
 
 async function deployCommands() {
     console.log('Starting secure command deployment...');
@@ -94,17 +88,6 @@ async function deployCommands() {
             { body: allCommands },
         );
         console.log(`✅ Successfully deployed ${guildData.length} commands to safe guild.`);
-
-        // Deploy upload commands to additional upload-allowed guilds (excluding safe guild)
-        const extraUploadGuildIds = [EXTRA_UPLOAD_GUILD_ID].filter(id => id && id !== SAFE_GUILD_ID);
-        for (const guildId of extraUploadGuildIds) {
-            console.log(`📦 Deploying upload commands to guild (${guildId})...`);
-            const uploadGuildData = await rest.put(
-                Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, guildId),
-                { body: uploadCommands },
-            );
-            console.log(`✅ Successfully deployed ${uploadGuildData.length} upload commands to guild ${guildId}.`);
-        }
 
         console.log('\n🎉 Secure command deployment completed!');
         console.log(`📋 Public commands available everywhere: ${publicCommands.map(c => c.name).join(', ')}`);

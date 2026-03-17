@@ -3,24 +3,26 @@
 
 import 'dotenv/config';
 
+const PRIMARY_GUILD_ID = '1387992514388037803';
+
 export const SERVER_CONFIG = {
     // Safe Server - Where sensitive commands like upload work
     SAFE: {
-        id: process.env.SAFE_GUILD_ID || '',
+        id: PRIMARY_GUILD_ID,
         name: 'Safe Server',
         type: 'safe'
     },
 
     // Exception Server - Special server with full user command access (including /gen)
     EXCEPTION: {
-        id: process.env.EXCEPTION_GUILD_ID || '',
+        id: '',
         name: 'Exception Server',
         type: 'exception'
     },
 
     // Main Server - Reserved for future use
     MAIN: {
-        id: process.env.MAIN_GUILD_ID || '',
+        id: '',
         name: 'Main Server',
         type: 'main'
     }

@@ -3,10 +3,9 @@ import { SAFE_GUILD_ID, MAIN_GUILD_ID, EXCEPTION_GUILD_ID } from '../config/serv
 import { isCommandAllowedForServerType, getCommandsForServerType, getCommandCooldown } from '../config/commands.js';
 
 const UPLOAD_COMMAND_NAMES = ['upload', 'uploadzip', 'uploadzipbulk'];
-const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
 
 function isUploadGuildAllowed(guildId) {
-    return !!guildId && (guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID);
+    return !!guildId && guildId === SAFE_GUILD_ID;
 }
 
 // Server configuration constants

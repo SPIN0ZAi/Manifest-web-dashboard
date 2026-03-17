@@ -15,12 +15,11 @@ import { sendGameAlert, sendUpdatedGameAlert, broadcastGameAlert, broadcastUpdat
 import { emojis } from '../utils/emojis.js';
 import { setStoredBuildVersion } from '../utils/manifestProcessor.js';
 
-const SAFE_GUILD_ID = process.env.SAFE_GUILD_ID || '1317915330084995163';
-const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
+const SAFE_GUILD_ID = '1387992514388037803';
 const EXTRA_UPLOAD_USER_ID = '588896596742373398';
 
 function isUploadGuildAllowed(guildId) {
-    return guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID;
+    return guildId === SAFE_GUILD_ID;
 }
 
 function canUseUploadCommands(interaction) {
