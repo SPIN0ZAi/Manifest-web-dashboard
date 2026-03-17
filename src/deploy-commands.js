@@ -3,7 +3,8 @@ import { REST, Routes } from 'discord.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getPublicCommandNames, getSensitiveCommandNames, isKnownCommand } from './config/commands.js';
+import { getPublicCommandNames, getSensitiveCommandNames, getUploadCommandNames, isKnownCommand } from './config/commands.js';
+import { UPLOAD_ALLOWED_GUILD_IDS } from './config/uploadAccess.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,11 +21,13 @@ async function deployCommands() {
     console.log('Starting secure command deployment...');
     const publicCommands = [];
     const sensitiveCommands = [];
+    const uploadCommands = [];
     const commandsPath = path.join(__dirname, 'commands');
 
     // Get command classifications from centralized config
     const publicCommandNames = getPublicCommandNames();
     const sensitiveCommandNames = getSensitiveCommandNames();
+    const uploadCommandNames = getUploadCommandNames();
 
     try {
         const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -51,6 +54,10 @@ async function deployCommands() {
                         sensitiveCommands.push(commandData);
                         console.log(`⚠️ Loaded UNKNOWN command as SENSITIVE: ${commandName} (add it to config/commands.js)`);
                     }
+
+                    if (uploadCommandNames.includes(commandName)) {
+                        uploadCommands.push(commandData);
+                    }
                 } else {
                     console.warn(`[WARNING] The command at ${filePath} is missing a required "data" property.`);
                 }
@@ -68,6 +75,7 @@ async function deployCommands() {
         console.log(`\n📊 Command Summary:`);
         console.log(`Public commands: ${publicCommands.length}`);
         console.log(`Sensitive commands: ${sensitiveCommands.length}`);
+        console.log(`Upload commands: ${uploadCommands.length}`);
         console.log(`Safe guild ID: ${SAFE_GUILD_ID}\n`);
 
         // Deploy public commands globally (available in all servers)
@@ -87,9 +95,23 @@ async function deployCommands() {
         );
         console.log(`✅ Successfully deployed ${guildData.length} commands to safe guild.`);
 
+        // Deploy upload commands to additional upload-allowed guilds (excluding safe guild)
+        const extraUploadGuildIds = UPLOAD_ALLOWED_GUILD_IDS.filter(id => id && id !== SAFE_GUILD_ID);
+        for (const guildId of extraUploadGuildIds) {
+            console.log(`📦 Deploying upload commands to guild (${guildId})...`);
+            const uploadGuildData = await rest.put(
+                Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, guildId),
+                { body: uploadCommands },
+            );
+            console.log(`✅ Successfully deployed ${uploadGuildData.length} upload commands to guild ${guildId}.`);
+        }
+
         console.log('\n🎉 Secure command deployment completed!');
         console.log(`📋 Public commands available everywhere: ${publicCommands.map(c => c.name).join(', ')}`);
         console.log(`🔐 Sensitive commands available only in safe guild: ${sensitiveCommands.map(c => c.name).join(', ')}`);
+        if (uploadCommands.length > 0) {
+            console.log(`📦 Upload commands deployed to upload-allowed guilds: ${uploadCommands.map(c => c.name).join(', ')}`);
+        }
 
     } catch (error) {
         console.error('Error deploying commands:', error);

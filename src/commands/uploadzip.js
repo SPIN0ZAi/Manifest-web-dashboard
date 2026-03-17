@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { Octokit } from '@octokit/rest';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,6 +14,7 @@ import { getDepotKey } from '../utils/depotKeys.js';
 import { sendGameAlert, sendUpdatedGameAlert, broadcastGameAlert, broadcastUpdatedGameAlert } from '../utils/alerts.js';
 import { emojis } from '../utils/emojis.js';
 import { setStoredBuildVersion } from '../utils/manifestProcessor.js';
+import { canUseUploadCommands, isUploadGuildAllowed } from '../config/uploadAccess.js';
 
 const streamPipeline = promisify(pipeline);
 
@@ -21,9 +22,6 @@ const streamPipeline = promisify(pipeline);
 let octokit = null;
 let REPO_OWNER = null;
 let REPO_NAME = null;
-
-// Safe guild ID where sensitive commands are allowed
-const SAFE_GUILD_ID = '1317915330084995163';
 
 // Initialize GitHub configuration
 function initializeGitHubConfig() {
@@ -47,7 +45,7 @@ function initializeGitHubConfig() {
 export const data = new SlashCommandBuilder()
     .setName('uploadzip')
     .setDescription('Upload a ZIP file containing .lua and .manifest files')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(0)
     .addAttachmentOption(option =>
         option.setName('zipfile')
             .setDescription('The ZIP file containing .lua and .manifest files')
@@ -384,11 +382,17 @@ export async function processZipFile(tempPath) {
 }
 
 export async function execute(interaction) {
-    // Security check: Only allow this command in the safe guild
-    if (interaction.guildId !== SAFE_GUILD_ID) {
-        console.log(`[SECURITY] Denied /uploadzip to ${interaction.user.tag} (${interaction.user.id}) in guild ${interaction.guildId} - not safe guild`);
+    if (!isUploadGuildAllowed(interaction.guildId)) {
+        console.log(`[SECURITY] Denied /uploadzip to ${interaction.user.tag} (${interaction.user.id}) in guild ${interaction.guildId} - guild not allowed`);
         return interaction.reply({
-            content: '❌ This command is only available in the safe server.',
+            content: '❌ This command is not allowed in this server.',
+            ephemeral: true
+        });
+    }
+
+    if (!canUseUploadCommands(interaction)) {
+        return interaction.reply({
+            content: '❌ You do not have permission to use upload commands in this server.',
             ephemeral: true
         });
     }

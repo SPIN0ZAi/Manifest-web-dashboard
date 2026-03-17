@@ -13,6 +13,7 @@ import { scheduleWeeklyHighlights, schedulePriceDropChecks, stopNotificationSche
 import { isCommandAllowed, getServerType, SERVER_TYPES } from './utils/serverManager.js';
 import { setClient } from './utils/discordClient.js';
 import { getCommandCooldown } from './config/commands.js';
+import { isUploadGuildAllowed, UPLOAD_COMMAND_NAMES } from './config/uploadAccess.js';
 import logger from './utils/logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -180,7 +181,12 @@ client.on('interactionCreate', async interaction => {
 
         // Check if server is in the whitelist
         if (ALLOWED_SERVER_IDS.length > 0 && !ALLOWED_SERVER_IDS.includes(interaction.guildId)) {
-            return interaction.reply({ embeds: [buildBlockedEmbed(interaction)], ephemeral: true });
+            const isUploadCommand = UPLOAD_COMMAND_NAMES.includes(interaction.commandName);
+            if (isUploadCommand && isUploadGuildAllowed(interaction.guildId)) {
+                // Allow upload commands in explicitly allowed upload guilds
+            } else {
+                return interaction.reply({ embeds: [buildBlockedEmbed(interaction)], ephemeral: true });
+            }
         }
 
         // Check if command is allowed in this server

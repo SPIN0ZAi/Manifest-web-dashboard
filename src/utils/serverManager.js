@@ -1,6 +1,7 @@
 import { getDb } from './database.js';
 import { SAFE_GUILD_ID, MAIN_GUILD_ID, EXCEPTION_GUILD_ID } from '../config/servers.js';
 import { isCommandAllowedForServerType, getCommandsForServerType, getCommandCooldown } from '../config/commands.js';
+import { isUploadGuildAllowed, UPLOAD_COMMAND_NAMES } from '../config/uploadAccess.js';
 
 // Server configuration constants
 export const SERVER_TYPES = {
@@ -32,6 +33,10 @@ export function getServerType(guildId) {
  * Delegates to centralized command metadata in config/commands.js.
  */
 export function isCommandAllowed(commandName, guildId) {
+    if (UPLOAD_COMMAND_NAMES.includes(commandName)) {
+        return isUploadGuildAllowed(guildId);
+    }
+
     const serverType = getServerType(guildId);
     return isCommandAllowedForServerType(commandName, serverType);
 }

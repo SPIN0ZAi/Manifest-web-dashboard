@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { validateAppId } from '../utils/steam.js';
 import { updateOrCreateBranch } from '../utils/github.js';
 import { cleanLuaContent } from '../utils/luaCleaner.js';
@@ -12,12 +12,12 @@ import { getDepotKey } from '../utils/depotKeys.js';
 import { broadcastGameAlert, broadcastUpdatedGameAlert } from '../utils/alerts.js';
 import { setStoredBuildVersion } from '../utils/manifestProcessor.js';
 
-import { getServerType, SERVER_TYPES } from '../utils/serverManager.js';
+import { canUseUploadCommands, isUploadGuildAllowed } from '../config/uploadAccess.js';
 
 export const data = new SlashCommandBuilder()
     .setName('upload')
     .setDescription('Upload a manifest file for a Steam game')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(0)
     .addStringOption(option =>
         option.setName('appid')
             .setDescription('The Steam AppID of the game')
@@ -80,12 +80,17 @@ function extractManifestInfo(filename, content) {
 }
 
 export async function execute(interaction) {
-    // Security check: Only allow this command in the safe guild
-    const serverType = getServerType(interaction.guildId);
-    if (serverType !== SERVER_TYPES.SAFE) {
-        console.log(`[SECURITY] Denied /upload to ${interaction.user.tag} (${interaction.user.id}) in guild ${interaction.guildId} - not safe guild (type: ${serverType})`);
+    if (!isUploadGuildAllowed(interaction.guildId)) {
+        console.log(`[SECURITY] Denied /upload to ${interaction.user.tag} (${interaction.user.id}) in guild ${interaction.guildId} - guild not allowed`);
         return interaction.reply({ 
-            content: '❌ This command is only available in the safe server.', 
+            content: '❌ This command is not allowed in this server.', 
+            ephemeral: true 
+        });
+    }
+
+    if (!canUseUploadCommands(interaction)) {
+        return interaction.reply({ 
+            content: '❌ You do not have permission to use upload commands in this server.', 
             ephemeral: true 
         });
     }
