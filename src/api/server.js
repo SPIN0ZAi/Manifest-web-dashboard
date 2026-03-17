@@ -8,12 +8,15 @@ import { validateAppId } from '../utils/steam.js';
 import { fetchFilesFromRepo } from '../utils/github.js';
 import { createZipArchive } from '../utils/zip.js';
 import { getDb } from '../utils/database.js';
-import { getClient } from '../utils/discordClient.js';
 import logger from '../utils/logger.js';
 
 const log = logger.child('API');
 const app = express();
 let server = null; // Store server reference for graceful shutdown
+
+function getDiscordClient() {
+    return globalThis.discordClient || null;
+}
 
 // Configuration from environment
 const BIND_PORT = parseInt(process.env.API_BIND_PORT || '6308', 10);
@@ -142,7 +145,7 @@ const validateApiKey = async (req, res, next) => {
         // Try to get user avatar from Discord client
         let avatarUrl = null;
         try {
-            const discordClient = getClient();
+            const discordClient = getDiscordClient();
             if (discordClient) {
                 const discordUser = await discordClient.users.fetch(user.userId);
                 avatarUrl = discordUser.displayAvatarURL({ dynamic: true, size: 128 });

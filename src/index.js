@@ -11,7 +11,6 @@ import { startApiServer, stopApiServer } from './api/server.js';
 import { scheduleAutoUpdates, stopAutoUpdates } from './utils/autoUpdater.js';
 import { scheduleWeeklyHighlights, schedulePriceDropChecks, stopNotificationSchedulers } from './utils/notifications.js';
 import { isCommandAllowed, getServerType, SERVER_TYPES } from './utils/serverManager.js';
-import { setClient } from './utils/discordClient.js';
 import { getCommandCooldown } from './config/commands.js';
 import { isUploadGuildAllowed, UPLOAD_COMMAND_NAMES } from './config/uploadAccess.js';
 import logger from './utils/logger.js';
@@ -58,7 +57,7 @@ client.on('ready', () => {
     });
 
     // Make Discord client available via module export (replaces global.discordClient)
-    setClient(client);
+    globalThis.discordClient = client;
 
     // Start schedulers
     logger.info('Starting schedulers...');

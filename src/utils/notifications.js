@@ -1,11 +1,14 @@
 // Smart notifications and alerts system
 import { getDb } from './database.js';
 import { EmbedBuilder } from 'discord.js';
-import { getClient } from './discordClient.js';
 
 // Store scheduler interval IDs for cleanup
 let weeklyHighlightsInterval = null;
 let priceDropInterval = null;
+
+function getDiscordClient() {
+    return globalThis.discordClient || null;
+}
 
 /**
  * Price drop alert system
@@ -307,7 +310,7 @@ async function triggerPriceDropAlert(alert, newPrice) {
             .setTimestamp();
 
         // Send notification using shared Discord client
-        const discordClient = getClient();
+        const discordClient = getDiscordClient();
         if (discordClient) {
             await sendUserNotification(discordClient, alert.userId, embed);
         }
