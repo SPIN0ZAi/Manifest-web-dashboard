@@ -12,8 +12,6 @@ import { scheduleAutoUpdates, stopAutoUpdates } from './utils/autoUpdater.js';
 import { scheduleWeeklyHighlights, schedulePriceDropChecks, stopNotificationSchedulers } from './utils/notifications.js';
 import { isCommandAllowed, getServerType, SERVER_TYPES } from './utils/serverManager.js';
 import { getCommandCooldown } from './config/commands.js';
-import { isUploadGuildAllowed, UPLOAD_COMMAND_NAMES } from './config/uploadAccess.js';
-import logger from './utils/logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +25,23 @@ const client = new Client({
 
 // Bot owner ID from environment (no more hardcoded typo)
 const BOT_OWNER_ID = process.env.BOT_OWNER_ID || '';
+
+// Upload command access (simple constants)
+const UPLOAD_COMMAND_NAMES = ['upload', 'uploadzip', 'uploadzipbulk'];
+const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
+
+function isUploadGuildAllowed(guildId) {
+    return !!guildId && (guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID);
+}
+
+// Lightweight logger fallback (avoids hard dependency on logger.js in misconfigured hosts)
+const logger = {
+    success: (...args) => console.log(...args),
+    info: (...args) => console.log(...args),
+    warn: (...args) => console.warn(...args),
+    error: (...args) => console.error(...args),
+    event: (...args) => console.log(...args),
+};
 
 // Whitelist of allowed server IDs from environment (comma-separated)
 const ALLOWED_SERVER_IDS = (process.env.ALLOWED_SERVER_IDS || '')

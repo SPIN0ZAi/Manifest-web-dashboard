@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { processZipFile } from './uploadzip.js';
 import fetch from 'node-fetch';
 import fs from 'node:fs';
@@ -8,7 +8,20 @@ import { updateOrCreateBranch } from '../utils/github.js';
 import { broadcastGameAlert, broadcastUpdatedGameAlert } from '../utils/alerts.js';
 import { setStoredBuildVersion } from '../utils/manifestProcessor.js';
 import { emojis } from '../utils/emojis.js';
-import { canUseUploadCommands, isUploadGuildAllowed } from '../config/uploadAccess.js';
+
+const SAFE_GUILD_ID = process.env.SAFE_GUILD_ID || '1317915330084995163';
+const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
+const EXTRA_UPLOAD_USER_ID = '588896596742373398';
+
+function isUploadGuildAllowed(guildId) {
+  return guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID;
+}
+
+function canUseUploadCommands(interaction) {
+  if (interaction.user?.id === EXTRA_UPLOAD_USER_ID) return true;
+  if (process.env.BOT_OWNER_ID && interaction.user?.id === process.env.BOT_OWNER_ID) return true;
+  return !!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
+}
 
 export const data = new SlashCommandBuilder()
   .setName('uploadzipbulk')

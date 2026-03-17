@@ -133,7 +133,3 @@ export function getSensitiveCommandNames() {
         .filter(([, meta]) => meta.access !== 'global')
         .map(([name]) => name);
 }
-
-export function getUploadCommandNames() {
-    return ['upload', 'uploadzip', 'uploadzipbulk'];
-}

@@ -8,8 +8,15 @@ import { validateAppId } from '../utils/steam.js';
 import { fetchFilesFromRepo } from '../utils/github.js';
 import { createZipArchive } from '../utils/zip.js';
 import { getDb } from '../utils/database.js';
-import logger from '../utils/logger.js';
 
+const logger = {
+    child: (name) => ({
+        info: (...args) => console.log(`[${name}]`, ...args),
+        warn: (...args) => console.warn(`[${name}]`, ...args),
+        error: (...args) => console.error(`[${name}]`, ...args),
+        success: (...args) => console.log(`[${name}]`, ...args),
+    })
+};
 const log = logger.child('API');
 const app = express();
 let server = null; // Store server reference for graceful shutdown

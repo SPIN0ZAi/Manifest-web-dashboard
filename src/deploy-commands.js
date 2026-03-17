@@ -3,14 +3,14 @@ import { REST, Routes } from 'discord.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getPublicCommandNames, getSensitiveCommandNames, getUploadCommandNames, isKnownCommand } from './config/commands.js';
-import { UPLOAD_ALLOWED_GUILD_IDS } from './config/uploadAccess.js';
+import { getPublicCommandNames, getSensitiveCommandNames, isKnownCommand } from './config/commands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Safe guild ID from environment (where all commands including sensitive ones will be available)
 const SAFE_GUILD_ID = process.env.SAFE_GUILD_ID;
+const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
 
 if (!SAFE_GUILD_ID) {
     console.error('❌ SAFE_GUILD_ID environment variable is not set. Cannot deploy commands.');
@@ -27,7 +27,7 @@ async function deployCommands() {
     // Get command classifications from centralized config
     const publicCommandNames = getPublicCommandNames();
     const sensitiveCommandNames = getSensitiveCommandNames();
-    const uploadCommandNames = getUploadCommandNames();
+    const uploadCommandNames = ['upload', 'uploadzip', 'uploadzipbulk'];
 
     try {
         const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -96,7 +96,7 @@ async function deployCommands() {
         console.log(`✅ Successfully deployed ${guildData.length} commands to safe guild.`);
 
         // Deploy upload commands to additional upload-allowed guilds (excluding safe guild)
-        const extraUploadGuildIds = UPLOAD_ALLOWED_GUILD_IDS.filter(id => id && id !== SAFE_GUILD_ID);
+        const extraUploadGuildIds = [EXTRA_UPLOAD_GUILD_ID].filter(id => id && id !== SAFE_GUILD_ID);
         for (const guildId of extraUploadGuildIds) {
             console.log(`📦 Deploying upload commands to guild (${guildId})...`);
             const uploadGuildData = await rest.put(

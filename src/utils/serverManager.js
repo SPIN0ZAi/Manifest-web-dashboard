@@ -1,7 +1,13 @@
 import { getDb } from './database.js';
 import { SAFE_GUILD_ID, MAIN_GUILD_ID, EXCEPTION_GUILD_ID } from '../config/servers.js';
 import { isCommandAllowedForServerType, getCommandsForServerType, getCommandCooldown } from '../config/commands.js';
-import { isUploadGuildAllowed, UPLOAD_COMMAND_NAMES } from '../config/uploadAccess.js';
+
+const UPLOAD_COMMAND_NAMES = ['upload', 'uploadzip', 'uploadzipbulk'];
+const EXTRA_UPLOAD_GUILD_ID = '1373031969386008729';
+
+function isUploadGuildAllowed(guildId) {
+    return !!guildId && (guildId === SAFE_GUILD_ID || guildId === EXTRA_UPLOAD_GUILD_ID);
+}
 
 // Server configuration constants
 export const SERVER_TYPES = {
