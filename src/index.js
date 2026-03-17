@@ -38,9 +38,11 @@ function isUploadGuildAllowed(guildId) {
 const logger = {
     success: (...args) => console.log(...args),
     info: (...args) => console.log(...args),
+    debug: (...args) => console.log(...args),
     warn: (...args) => console.warn(...args),
     error: (...args) => console.error(...args),
     event: (...args) => console.log(...args),
+    child: () => logger,
 };
 
 // Whitelist of allowed server IDs from environment (comma-separated)
