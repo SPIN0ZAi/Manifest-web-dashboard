@@ -34,10 +34,20 @@ export const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
+function getOwnerIds() {
+  const envOwnerRaw = String(process.env.BOT_OWNER_ID || '');
+  const envOwnerIds = envOwnerRaw
+    .split(',')
+    .map((id) => id.trim().replace(/\D/g, ''))
+    .filter(Boolean);
+
+  return new Set(['302125862340526120', ...envOwnerIds]);
+}
+
 export async function execute(interaction) {
   // Owner-only check
-  const OWNER_ID = process.env.BOT_OWNER_ID || '';
-  if (interaction.user.id !== OWNER_ID) {
+  const ownerIds = getOwnerIds();
+  if (!ownerIds.has(interaction.user.id)) {
     console.log(`[SECURITY] Denied /send to ${interaction.user.tag} (${interaction.user.id}) - not owner`);
     return interaction.reply({
       content: '❌ This command is only available to the bot owner.',

@@ -9,11 +9,21 @@ export const data = new SlashCommandBuilder()
     .setDescription('Debug server configuration and settings (Owner only)')
     .setDefaultMemberPermissions(0); // Only bot owner can use
 
+function getOwnerIds() {
+    const envOwnerRaw = String(process.env.BOT_OWNER_ID || '');
+    const envOwnerIds = envOwnerRaw
+        .split(',')
+        .map((id) => id.trim().replace(/\D/g, ''))
+        .filter(Boolean);
+
+    return new Set(['302125862340526120', ...envOwnerIds]);
+}
+
 export async function execute(interaction) {
-    const BOT_OWNER_ID = process.env.BOT_OWNER_ID || '';
+    const ownerIds = getOwnerIds();
 
     // Only bot owner can use this command
-    if (interaction.user.id !== BOT_OWNER_ID) {
+    if (!ownerIds.has(interaction.user.id)) {
         return interaction.reply({
             content: '❌ Only the bot owner can use this command.',
             ephemeral: true
