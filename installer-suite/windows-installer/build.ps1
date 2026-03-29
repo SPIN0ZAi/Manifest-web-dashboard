@@ -33,6 +33,7 @@ if (-not $iscc) {
   Copy-Item (Join-Path $installer 'bin') (Join-Path $portable 'bin') -Recurse -Force
   Copy-Item (Join-Path $installer 'payload') (Join-Path $portable 'payload') -Recurse -Force
   Copy-Item (Join-Path $installer 'install-extension.ps1') (Join-Path $portable 'install-extension.ps1') -Force
+  Copy-Item (Join-Path $installer 'control-panel.ps1') (Join-Path $portable 'control-panel.ps1') -Force
 
   Write-Warning 'Inno Setup compiler not found. Skipping setup EXE generation.'
   Write-Host "Portable package created at: $portable"
