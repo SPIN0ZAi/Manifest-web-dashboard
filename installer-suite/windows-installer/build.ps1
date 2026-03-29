@@ -30,8 +30,12 @@ if (-not $iscc) {
   $portable = Join-Path $installer 'portable-package'
   if (Test-Path $portable) { Remove-Item $portable -Recurse -Force }
   New-Item -ItemType Directory -Path $portable | Out-Null
-  Copy-Item (Join-Path $installer 'bin') (Join-Path $portable 'bin') -Recurse -Force
-  Copy-Item (Join-Path $installer 'payload') (Join-Path $portable 'payload') -Recurse -Force
+  New-Item -ItemType Directory -Path (Join-Path $portable 'agent') | Out-Null
+  New-Item -ItemType Directory -Path (Join-Path $portable 'extension') | Out-Null
+
+  Copy-Item (Join-Path $installer 'bin\SBManifestAgent.exe') (Join-Path $portable 'agent\SBManifestAgent.exe') -Force
+  Copy-Item (Join-Path $agent '.env.example') (Join-Path $portable 'agent\.env') -Force
+  Copy-Item (Join-Path $installer 'payload\extension\*') (Join-Path $portable 'extension') -Recurse -Force
   Copy-Item (Join-Path $installer 'install-extension.ps1') (Join-Path $portable 'install-extension.ps1') -Force
   Copy-Item (Join-Path $installer 'control-panel.ps1') (Join-Path $portable 'control-panel.ps1') -Force
 
